@@ -1,0 +1,20 @@
+*{
+}
+table thead{
+   font-family: serif;
+   
+}
+table tbody td{
+   font-size: 16px;
+   font-weight: normal;
+}
+table button{
+    border: none;
+    background: none;
+    padding: 0;
+
+}
+.form-group .btn-create{
+background: #000;
+color: rebeccapurple;
+}

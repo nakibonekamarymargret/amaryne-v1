@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    /* General styles for card layout */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Space between cards */
+    justify-content: center; /* Center-align cards */
+  }
+  
+  .card {
+    flex: 1 1 calc(100% - 2rem); /* Default to full width minus spacing */
+    max-width: 100%; 
+    padding: 1rem;
+    background-color: #f3f3f3;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Medium screens (e.g., tablets) - 3 cards per row */
+  @media (min-width: 768px) {
+    .card {
+      flex: 1 1 calc(33.333% - 2rem);
+      max-width: calc(33.333% - 2rem);
+    }
+  }
+  
+  /* Large screens (e.g., desktops) - all cards in one row */
+  @media (min-width: 1200px) {
+    .card {
+      flex: 1 1 calc(16.666% - 2rem);
+      max-width: calc(16.666% - 2rem);
+    }
+  }
+  
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="card">Card 1</div>
+        <div class="card">Card 2</div>
+        <div class="card">Card 3</div>
+        <div class="card">Card 4</div>
+        <div class="card">Card 5</div>
+        <div class="card">Card 6</div>
+      </div>
+</body>
+</html>

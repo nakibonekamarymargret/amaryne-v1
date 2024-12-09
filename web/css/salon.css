@@ -1,0 +1,73 @@
+.salon-content {
+    padding: 20px;
+}
+
+.saloon {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.zigzag-line {
+    width: 100%;
+    height: 10px;
+    background: repeating-linear-gradient(
+        -45deg,
+        black,
+        black 5px,
+        transparent 5px,
+        transparent 10px
+    );
+    margin: 20px 0;
+}
+
+.service-card {
+    /* border: 1px solid #ddd; */
+    border-radius: 5px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card .badge {
+    z-index: 10;
+    font-size: 0.9rem;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-body p {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+.price-details {
+    line-height: 1.2;
+}
+.original-price{
+color: red !important;
+text-decoration:line-through;
+font-size: 0.9rem;
+}
+.discounted-price {
+    font-size: 1rem;
+    color: black; 
+    margin-top: 3px; 
+}
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #12305d;
+    --bs-btn-border-color: #12305d;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #102a4f;
+    --bs-btn-hover-border-color: #303947;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #1c304d;
+    --bs-btn-active-border-color: #314055;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #061d3f;
+    --bs-btn-disabled-border-color: #17253b;
+}
