@@ -1,33 +1,30 @@
-Here’s a **README.md** template to guide users on deploying your Yii2 project using **Nginx**. This will provide step-by-step instructions for setting up the project on a server with Nginx.
 
----
+# AMARYNE SALOON MANAGEMENT SYSTEM V-1
 
-```markdown
-# Yii2 Project Deployment Guide using Nginx
 
-This guide will help you deploy a Yii2 project on your server using **Nginx**. Follow these steps to get your project running.
-
-## Prerequisites
+**PREREQUISITES**
 
 Before you begin, ensure you have the following installed on your server:
 
-- **PHP 7.4+** (or a compatible version)
-- **Nginx**
-- **Composer** (for managing PHP dependencies)
-- **MySQL/PostgreSQL** (or any other database supported by your project)
+    **PHP 7.4+**(or a compatible version)
+   **Nginx**
+    **Composer** (for managing PHP dependencies)
+    **PostgreSQL**
 
 ### 1. Clone the Repository
 
 Clone your Yii2 project from GitHub to your server:
 
 ```bash
-git clone https://github.com/your-username/your-repository.git
-cd your-repository
+git clone https://github.com/nakibonekamarymargret/amaryne-v1.git
+cd amaryne-v1
 ```
 
 ### 2. Install PHP and Composer Dependencies
-
-Make sure PHP and Composer are installed on your server. You can install them with the following commands (assuming you are using Ubuntu or Debian-based systems):
+Make sure PHP and Composer are installed on your server
+PHP: https://www.php.net/manual/en/install.general.php
+Composer : https://getcomposer.org/download/
+You can install them with the following commands (assuming you are using Ubuntu or Debian-based systems):
 
 ```bash
 sudo apt update
@@ -35,7 +32,7 @@ sudo apt install php-fpm php-mysql php-xml php-mbstring php-cli php-curl
 sudo apt install composer
 ```
 
-Install the Composer dependencies for your Yii2 project:
+Install the Composer dependencies for the Yii2 project:
 
 ```bash
 composer install
@@ -53,14 +50,21 @@ Edit the `.env` file to match your server’s environment, particularly the data
 
 ### 4. Set Up the Database
 
-Ensure your database is set up. If you need to create the database, use MySQL or PostgreSQL commands. For example, for MySQL:
+Ensure your database is set up. If you need to create the database:
 
 ```bash
-mysql -u root -p
-CREATE DATABASE your_database;
+sudo -u postgres psql
+CREATE DATABASE your_database_name;
+
 ```
 
 Then configure the `.env` file with the correct database credentials.
+ DB_CONNECTION=pgsql
+DB_HOST=localhost
+DB_PORT=5432
+DB_DATABASE=your_database_name
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
 
 Run the Yii2 migrations to set up your database schema:
 
@@ -193,18 +197,7 @@ Make sure the `runtime` and `web/assets` directories are writable by the web ser
 ```bash
 sudo chown -R www-data:www-data /path/to/your/project/runtime
 sudo chown -R www-data:www-data /path/to/your/project/web/assets
-```
-
-### Set Up SSL (Optional)
-
-To serve your site over HTTPS, you can set up **SSL** using Let's Encrypt or any SSL certificate. For example, using Certbot:
-
-```bash
-sudo apt install certbot python3-certbot-nginx
-sudo certbot --nginx -d your-domain.com
-```
-
----
+``
 
 ## Troubleshooting
 
