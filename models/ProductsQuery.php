@@ -3,9 +3,9 @@
 namespace app\models;
 
 /**
- * This is the ActiveQuery class for [[ProductsModel]].
+ * This is the ActiveQuery class for [[Products]].
  *
- * @see ProductsModel
+ * @see Products
  */
 class ProductsQuery extends \yii\db\ActiveQuery
 {
@@ -16,7 +16,7 @@ class ProductsQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return ProductsModel[]|array
+     * @return Products[]|array
      */
     public function all($db = null)
     {
@@ -25,14 +25,10 @@ class ProductsQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return ProductsModel|array|null
+     * @return Products|array|null
      */
     public function one($db = null)
     {
         return parent::one($db);
-    }
-    public function byKeyword($keyword)
-    {
-        return $this->andWhere("MATCH(name, description, price) AGAINST (:keyword)", ['keyword' => $keyword]);
     }
 }

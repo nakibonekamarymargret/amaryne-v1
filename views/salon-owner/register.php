@@ -12,18 +12,32 @@ use yii\widgets\ActiveForm;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Register</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+    <style>
+    .regButton{
+    background: linear-gradient(248deg, rgba(255, 192, 203, 1) 0%, rgba(243, 156, 224, 1) 50%,rgba(206, 19, 91, 1) );
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition-property: background;
+    transition-duration: 1s;
+    transition-timing-function: linear;
+}
+    </style>
 </head>
 
 <body>
     <div class="row login-container d-flex justify-content-center align-items-center vh-100">
-        <div class="col-8 mt-5 p-5 rounded shadow" style="max-width:800px;background-color: #f5f5f5; color: #6b4f30;">
+        <div class="col-8 mt-5 p-5 rounded shadow" style="max-width:800px;background-color: #f5f5f5; color: #000;">
             <div class="text-center mb-4">
-                <?= Html::img('@web/images/logo.png', ['alt' => 'amaryne logo', 'width' => '50', 'height' => '50', 'class' => 'rounded-circle']) ?>
-                <h4 class="mt-2" style="color:#a04a1b;">Welcome to Amaryne Beauties</h4>
-                <p class="fs-5" style="color:#f4a300;">Create Your Account to Continue</p>
+                <?= Html::img('@web/images/logo.png', ['alt' => 'amaryne logo', 'width' => '80', 'height' => '65', 'class' => 'rounded-circle bg-light shadow']) ?>
+                <h4 class="mt-2" style="color:#000;">Welcome to Amaryne Beauties</h4>
+                <p class="fs-5" style="color:#001;">Create Your Account to Continue</p>
             </div>
 
             <?php $form = ActiveForm::begin([
@@ -99,13 +113,13 @@ use yii\widgets\ActiveForm;
                     </div>
                 </div>
                 <div class="form-group mt-4 col-12">
-                    <?= Html::submitButton('Sign Up', ['class' => 'btn rounded-pill w-100', 'style' => 'background-color: #a04a1b']) ?>
+                    <?= Html::submitButton('Sign Up', ['class' => 'btn rounded-pill w-100 regButton', 'style' => 'background-color: #a04a1b']) ?>
                 </div>
                 <div class="mt-3 text-center text-muted">
                     <p>Already have an account?
                         <?= Html::a('Sign up', ['salon-owner/login'], [
                             'class' => 'text-decoration-underline',
-                            'style' => 'color:#f4a300;'
+                            'style' => 'color:rgba(206, 19, 91, 1);'
                         ]) ?> </p>
                 </div>
 

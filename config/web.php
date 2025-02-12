@@ -34,18 +34,27 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-       'mailer' => [
-    'class' => 'yii\swiftmailer\Mailer',
-    'viewPath' => '@app/mail',
-    'transport' => [
-        'class' => 'Swift_SmtpTransport',
-        'host' => 'sandbox.smtp.mailtrap.io',
-        'username' => '21dba12ad795ab',
-        'password' => '********52af',
-        'port' => '2525',
-        'encryption' => 'tls',
-    ],
-],
+        'mailer' => [
+            'class' => \yii\symfonymailer\Mailer::class,            
+            'viewPath' => '@app/mail',
+            'useFileTransport' => false,
+        //    'transport' => [
+        //     'class' => 'Swift_SmtpTransport',
+        //     'host' => 'sandbox.smtp.mailtrap.io',
+        //     'username' => '21dba12ad795ab',
+        //     'password' => '********52af',
+        //     'port' => '587',
+        //     'encryption' => 'tls',
+        // ],
+        'transport' => [
+                'scheme' => 'smtp',
+                'host' => '',
+                'username' => 'nakibonekamarymargret@gmail.com',
+                'password' => 'mary*Nm4G',
+                'port' => 465,
+                'dsn' => 'native://default',
+            ],
+        ],
 
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

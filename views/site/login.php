@@ -13,15 +13,17 @@ $this->title = 'Login';
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         .container {
-            background: url('<?= Yii::getAlias("@web/images/bg2.jpg") ?>') no-repeat fixed center/cover;
+            background: url('<?= Yii::getAlias("@web/images/bg2.jpg") ?>') no-repeat center center fixed;
+            background-size: cover;
             position: relative;
-            height: 100vh;
+            min-height: 100vh;
             max-width: 100%;
+            padding-top: 60px;
         }
 
         .container::before {
@@ -32,12 +34,27 @@ $this->title = 'Login';
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.4);
+            /* Adds a dark overlay */
             z-index: 1;
         }
 
         .container>* {
             position: relative;
             z-index: 2;
+        }
+
+        .loginButton {
+            background: linear-gradient(248deg, rgba(255, 192, 203, 1) 0%, rgba(243, 156, 224, 1) 50%, rgba(206, 19, 91, 1));
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition-property: background;
+            transition-duration: 1s;
+            transition-timing-function: linear;
         }
     </style>
 </head>
@@ -46,16 +63,16 @@ $this->title = 'Login';
     <div class="container">
         <div class="login-container d-flex justify-content-center align-items-center vh-100">
             <div class="login-card p-5 rounded shadow"
-                style="max-width: 400px; background-color: #f5f5f5; color: #6b4f30;">
+                style="max-width: 400px; background-color: #f5f5f5; color: #000;">
                 <div class="text-center mb-4">
                     <?= Html::img('@web/images/logo.png', [
                         'alt' => 'amaryne logo',
-                        'width' => '50',
-                        'height' => '50',
-                        'class' => 'rounded-circle'
+                        'width' => '80',
+                        'height' => '65',
+                        'class' => 'rounded-circle bg-light shadow'
                     ]) ?>
-                    <h4 class="mt-2" style="color:#a04a1b;">Welcome to Amaryne Beauties</h4>
-                    <p class="fs-5" style="color:#f4a300;">Login to continue</p>
+                    <h4 class="mt-2" style="color:#000;">Welcome to Amaryne Beauties</h4>
+                    <p class="fs-5" style="color:#0010;">Login to continue</p>
                 </div>
 
                 <?php $form = ActiveForm::begin([
@@ -88,7 +105,7 @@ $this->title = 'Login';
                     </div>
                     <?= Html::a('Forgot Password?', '#', [
                         'class' => 'text-decoration-none',
-                        'style' => 'color:#f4a300;'
+                        'style' => 'color:#001;'
                     ]) ?>
                 </div>
 
@@ -122,7 +139,7 @@ $this->title = 'Login';
                 </div>
 
                 <?= Html::submitButton('Login', [
-                    'class' => 'btn btn-outline-light mt-4 w-100 rounded-pill',
+                    'class' => 'btn btn-outline-light mt-4 w-100 rounded-pill loginButton',
                     'style' => 'background-color: #a04a1b;'
                 ]) ?>
 
@@ -130,7 +147,7 @@ $this->title = 'Login';
                     <p>Don’t have an account?
                         <?= Html::a('Sign up', ['site/register'], [
                             'class' => 'text-decoration-underline',
-                            'style' => 'color:#f4a300;'
+                            'style' => 'color:rgba(206, 19, 91, 1);'
                         ]) ?>
                     </p>
                 </div>

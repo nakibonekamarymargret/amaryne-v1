@@ -1,7 +1,10 @@
 <?php
 namespace app\controllers;
 
-use app\models\ProductsModel;
+use app\models\Appointments;
+use app\models\OrderItems;
+use app\models\Products;
+use app\models\Orders;
 use app\models\RegisterForm;
 use app\models\SalonModel;
 use app\models\Services;
@@ -67,29 +70,115 @@ class SalonOwnerController extends Controller
     public function actionIndex()
     {
         $this->layout = 'ownerLayout.php';
-
+    
+        // Fetch salon info for the logged-in owner
         $salon = SalonModel::find()->where(['owner_id' => Yii::$app->user->id])->one();
         $salonName = $salon ? $salon->name : 'amaryne Salonist';
-
-        $query = SalonModel::find();
-        $salonsCount = $query->count();
+    
+        if (!$salon) {
+            throw new NotFoundHttpException('Salon not found for the logged-in user.');
+        }
+    
+        // Fetch services created by the logged-in salon owner
+        $servicesCount = Services::find()
+            ->where(['salon_id' => $salon->id, 'status' => 'active'])
+            ->count();
+    
+        // Query to fetch clients linked to orders or appointments of this salon
+        $clientsQuery = (new \yii\db\Query())
+            ->select('u.id, u.name, u.email, u.contact, u.status')
+            ->from('users u')
+            ->leftJoin(
+                ['orders' => Orders::find()
+                    ->select('customer_id')
+                    ->innerJoin('order_items oi', 'oi.order_id = orders.id')
+                    ->innerJoin('products p', 'oi.product_id = p.id')
+                    ->where(['p.salon_id' => $salon->id])
+                    ->distinct()],
+                'u.id = orders.customer_id'
+            )
+            ->leftJoin(
+                ['appointments' => Appointments::find()
+                    ->select('customer_id')
+                    ->where(['salon_id' => $salon->id])
+                    ->distinct()],
+                'u.id = appointments.customer_id'
+            )
+            ->where(['u.role' => 'customer'])
+            ->andWhere([
+                'or',
+                ['is not', 'orders.customer_id', null],
+                ['is not', 'appointments.customer_id', null]
+            ])
+            ->distinct();
+    
+        // Pagination for clients
         $pagination = new Pagination([
             'defaultPageSize' => 5,
-            'totalCount' => $salonsCount,
+            'totalCount' => $clientsQuery->count(),
         ]);
-        $salons = $query->offset($pagination->offset)
+        $clients = $clientsQuery->offset($pagination->offset)
             ->limit($pagination->limit)
             ->all();
-
+    
+        // Fetch orders related to this salon
+        $ordersQuery = (new \yii\db\Query())
+            ->select(['o.id', 'MAX(u.name) AS customer_name', 'SUM(oi.quantity * p.price) AS total_price', 'SUM(oi.quantity) AS total_quantity'])
+            ->from('orders o')
+            ->innerJoin('order_items oi', 'oi.order_id = o.id')
+            ->innerJoin('products p', 'oi.product_id = p.id')
+            ->innerJoin('users u', 'u.id = o.customer_id')
+            ->where(['p.salon_id' => 57]) // Make sure to use the correct salon ID
+            ->groupBy(['o.id'])
+            ->orderBy(['o.created_at' => SORT_DESC]);
+    
+        $ordersPagination = new Pagination([
+            'defaultPageSize' => 5,
+            'totalCount' => $ordersQuery->count(),
+        ]);
+        $orders = $ordersQuery->offset($ordersPagination->offset)
+            ->limit($ordersPagination->limit)
+            ->all();
+    
+        // Count statistics
+        $totalClientsCount = $clientsQuery->count();
+        $activeClientsCount = Appointments::find()
+            ->where(['salon_id' => $salon->id])
+            ->andWhere(['>=', 'appointment_date', date('Y-m-d', strtotime('-30 days'))])
+            ->distinct('customer_id')
+            ->count();
+    
+        $appointmentsCount = Appointments::find()
+            ->where(['status' => 'active', 'salon_id' => $salon->id])
+            ->count();
+    
+        $ordersCount = Orders::find()
+            ->innerJoin('order_items oi', 'oi.order_id = orders.id')
+            ->innerJoin('products p', 'oi.product_id = p.id')
+            ->where(['p.salon_id' => $salon->id])
+            ->distinct('orders.id')
+            ->count();
+    
+        $productsCount = Products::find()
+            ->where(['salon_id' => $salon->id, 'status' => 'active'])
+            ->count();
+    
         return $this->render('dashboard', [
             'model' => Yii::$app->user->identity,
-            'salon' => $salon,
             'salonName' => $salonName,
-            'salonsCount' => $salonsCount,
-            'salons' => $salons,
+            'clients' => $clients,
             'pagination' => $pagination,
+            'orders' => $orders,
+            'ordersPagination' => $ordersPagination,
+            'totalClientsCount' => $totalClientsCount,
+            'activeClientsCount' => $activeClientsCount,
+            'appointmentsCount' => $appointmentsCount,
+            'ordersCount' => $ordersCount,
+            'productsCount' => $productsCount,
+            'servicesCount' => $servicesCount,
         ]);
     }
+      
     public function actionCreate()
     {
         $salon = new SalonModel();
@@ -113,28 +202,7 @@ class SalonOwnerController extends Controller
         Yii::$app->session->setFlash('error', 'Invalid request');
         return $this->redirect(['salon-owner/total-salons']);
     }
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        $this->layout = false;
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            if (Yii::$app->user->identity->role === 'salon owner' || Yii::$app->user->identity->role === ' admin') {
-                return $this->redirect(['salon-owner/index']);
-            } else {
-                Yii::$app->user->logout();
-                return $this->redirect(['salon-owner/access-denied']);
-            }
-        }
-
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
+    
     public function actionAccessDenied()
     {
         $this->layout = 'main';
@@ -348,8 +416,8 @@ class SalonOwnerController extends Controller
             return $this->redirect(['salon-owner/create-salon']);
         }
 
-        $model = new ProductsModel();
-        $products = ProductsModel::find()->where(['salon_id' => $salon->id, 'status' => 'active'])->all();
+        $model = new Products();
+        $products = Products::find()->where(['salon_id' => $salon->id, 'status' => 'active'])->all();
 
         return $this->render('products', [
             'salon' => $salon,
@@ -361,7 +429,7 @@ class SalonOwnerController extends Controller
 
     public function actionCreateProducts()
     {
-        $model = new ProductsModel();
+        $model = new Products();
         $salon = SalonModel::find()->where(['owner_id' => Yii::$app->user->id])->one();
 
         if ($salon !== null) {
@@ -390,7 +458,7 @@ class SalonOwnerController extends Controller
             'model' => $model,
         ]);
     }
-   
+
 
     protected function findModel($id)
     {

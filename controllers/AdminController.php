@@ -62,6 +62,58 @@ class AdminController extends Controller
             ],
         ];
     }
+    public function actionIndex()
+    {
+        $this->layout = 'ownerLayout.php';
+    
+        // Fetch salon info
+        $salon = SalonModel::find()->where(['owner_id' => Yii::$app->user->id])->one();
+        $salonName = $salon ? $salon->name : 'amaryne Salonist';
+    
+        $clientsQuery = (new \yii\db\Query())
+            ->select('u.id, u.name, u.email, u.contact, u.status')
+            ->from('users u')
+            ->where(['u.role' => 'customer'])
+            ->andWhere(['or',
+                ['in', 'u.id', Appointments::find()->select('customer_id')],
+                ['in', 'u.id', Orders::find()->select('customer_id')]
+            ])
+            ->distinct();
+    
+        // Pagination for clients
+        $pagination = new \yii\data\Pagination([
+            'defaultPageSize' => 5,
+            'totalCount' => $clientsQuery->count(),
+        ]);
+    
+        $clients = $clientsQuery->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+    
+        // Other stats
+        $totalClientsCount = $clientsQuery->count();
+        $activeClientsCount = Appointments::find()->where(['>=', 'appointment_date', date('Y-m-d', strtotime('-30 days'))])
+            ->distinct('customer_id')
+            ->count();
+    
+        $appointmentsCount = Appointments::find()->where(['status' => 'active'])->count();
+        $ordersCount = Orders::find()->count();
+        $productsCount = Products::find()->where(['status' => 'active'])->count();
+        $servicesCount = Services::find()->where(['status' => 'active'])->count();
+    
+        return $this->render('dashboard', [
+            'model' => Yii::$app->user->identity,
+            'salonName' => $salonName,
+            'clients' => $clients,
+            'pagination' => $pagination,
+            'totalClientsCount' => $totalClientsCount,
+            'activeClientsCount' => $activeClientsCount,
+            'appointmentsCount' => $appointmentsCount,
+            'ordersCount' => $ordersCount,
+            'productsCount' => $productsCount,
+            'servicesCount' => $servicesCount,
+        ]);
+    }
     public function actionDashboard()
     {
         $this->layout = 'adminLayout.php';

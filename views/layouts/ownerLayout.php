@@ -6,6 +6,8 @@
 use app\assets\OwnerAsset;
 use app\widgets\Alert;
 use yii\bootstrap5\Html;
+use yii\web\View;
+
 
 OwnerAsset::register($this);
 
@@ -19,6 +21,8 @@ $this->registerCssFile('@web/web/font-awesome/css/all.css', ['depends' => [\yii\
 $this->registerCssFile('@web/web/bootstrap-icons/font/bootstrap-icons.css', [
     'depends' => [\yii\web\YiiAsset::class],
 ]);
+$this->registerJsFile('@web/js/jquery-3.7.1.min.js', ['position' => View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()],])
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

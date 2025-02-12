@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $model app\models\OrdersModel */
+/* @var $model app\models\Orders */
 ?>
 
 <div class="order-form">

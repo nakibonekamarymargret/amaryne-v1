@@ -3,7 +3,7 @@
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  * Copyright 2024 Fonticons, Inc.
  */
-.fa {
+ .fa {
   font-family: var(--fa-style-family, "Font Awesome 6 Free");
   font-weight: var(--fa-style, 900); }
 
@@ -7836,6 +7836,10 @@ readers do not read off random characters that represent icons */
 .fas,
 .fa-solid {
   font-weight: 900; }
+
+i.fa-solid.fa-location-dot {
+    color: #ef4949;
+}
 @font-face {
   font-family: 'Font Awesome 5 Brands';
   font-display: block;

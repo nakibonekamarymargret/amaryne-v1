@@ -12,7 +12,7 @@ use yii\helpers\Url;
         <button class="explore-btn">Explore Services</button>
     </div>
 </div>
-<hr class="pt-2 fw-bold">
+<hr class="pt-2 fw -bold">
 <div class="row justify-content-center">
     <div class="col-lg-8">
         <p class="lead text-center">Amaryne Beauties provides high-quality beauty and wellness services just for you.
@@ -21,51 +21,50 @@ use yii\helpers\Url;
 </div>
 <hr class="mb-4">
 <div class="row">
-    <!-- Each column will take 4 units out of 12 on large screens -->
     <div class="col-lg-4 mb-4">
-        <div class="card-index">
-            <div class="card-body">
-                <div class="col-md-8">
-                    <h5 class="card-title">Hair Salons</h5>
-                </div>
-                <hr class="text-black">
-                <div class="mt-3 mb-3 d-flex">
-                    <div class="text me-3">
-                        <p class="card-text">Find top-rated salons dedicated to quality and elegance. Book appointments
-                            with ease.</p>
-                        <a href="<?= Url::to(['/salons/index']) ?>" class="card-btn custom-btn" style="margin-bottom: -2px;">View Salons</a>
-                    </div>
-                    <div class="col-md-4">
-                        <?= Html::img('@web/images/hair1.png', ['alt' => ' Salon', 'class' => 'img-fluid ']) ?>
-                    </div>
-                </div>
+    <div class="card-index shadow">
+    <div class="card-body">
+        <div class="col-md-8">
+            <h5 class="card-title">Hair Salons</h5>
+        </div>
+        <hr class="text-black">
+        <div class="mt-3 mb-3 d-flex">
+            <div class="text me-3">
+                <p class="card-text mb-7 hair-text">Find top-rated salons dedicated to quality and elegance. Book appointments with ease.</p>
+                <a href="<?= Url::to(['/salons/index', 'type' => 2]) ?>" class="card-btn custom-btn mb-7" style="margin-bottom: -2px;">View Hair Salons</a>
+            </div>
+            <div class="col-md-4">
+                <?= Html::img('@web/images/hair1.png', ['alt' => 'Salon', 'class' => 'img-fluid']) ?>
             </div>
         </div>
     </div>
-    <div class="col-lg-4 mb-4">
-        <div class="card-index">
+</div>
+
+    </div>
+    <div class="col-lg-4 mb-4 ">
+        <div class="card-index  shadow">
             <div class="card-body d-flex">
-                <div class="col mt-0">
-                    <h5 class="card-title">Skin Care</h5>
+                <div class="col mt-0 ">
+                    <h5 class="card-title ">Skin Care</h5>
                 </div>
                 <hr class="text-black">
                 <div class="mt-3 mb-3 d-flex">
                     <div class="col-md-4">
-                        <?= Html::img('@web/images/skincare.jpeg', ['alt' => 'Bridal Salon', 'class' => 'img-fluid rounded-end']) ?>
+                        <?= Html::img('@web/images/skincare.jpeg', ['alt' => 'skin Salon', 'class' => 'img-fluid rounded-end']) ?>
                     </div>
                     <div class="text mx-2">
                         <p class="card-text">Glow and get classy with Amaryne. Get connected to perfect skin care
                             doctors.
                         </p>
-                        <a href="#" class="card-btn custom-btn" style="margin-left: 3em">Aesthetic Skin
-                            Care Clinics</a>
+                        <a href="<?= Url::to(['/salons/index', 'type' => 5]) ?>" class="card-btn custom-btn" style="margin-left: 3em;">Aesthetic Skin
+                        Care Clinics</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-4 mb-4">
-        <div class="card-index">
+        <div class="card-index shadow">
             <div class="card-body d-flex">
                 <div class="col mt-0">
                     <h5 class="card-title">Mani + Pedi Salons</h5>
@@ -73,13 +72,14 @@ use yii\helpers\Url;
                 <hr class="text-black">
                 <div class="mt-3 mb-3 d-flex">
                     <div class="col-md-4">
-                        <?= Html::img('@web/images/manipedi.jpeg', ['alt' => 'Bridal Salon', 'class' => 'img-fluid rounded']) ?>
+                        <?= Html::img('@web/images/manipedi.jpeg', ['alt' => 'nail Salon', 'class' => 'img-fluid rounded']) ?>
                     </div>
                     <div class="text mx-2">
                         <p class="card-text">Life is not perfect, but your nails can be. Trust us for the best Manicure
                             &
                             Pedicure salons.</p>
-                        <a href="#" class="card-btn custom-btn " style="margin-left:15em">View</a>
+                            <a href="<?= Url::to(['/salons/index', 'type' => 3]) ?>" class="card-btn custom-btn" style="margin-left:15em;">View 
+                        </a>
                     </div>
 
                 </div>
@@ -87,7 +87,7 @@ use yii\helpers\Url;
         </div>
     </div>
     <div class="col-lg-4 mb-4">
-        <div class="card-index">
+        <div class="card-index shadow">
             <div class="card-body d-flex">
                 <div class="col mt-0">
                     <h5 class="card-title">Barber Shops</h5>
@@ -99,18 +99,19 @@ use yii\helpers\Url;
                         <p class="card-text">Find top-rated salons dedicated to quality and elegance. Book appointments
                             with
                             ease.</p>
-                        <a href="#" class="card-btn  custom-btn" style="">View
-                            Salons</a>
+     
+                            <a href="<?= Url::to(['/salons/index', 'type' => 4]) ?>" class="card-btn custom-btn" >View  Salons</a>
+
                     </div>
                     <div class="col-md-4">
-                        <?= Html::img('@web/images/barber.jpeg', ['alt' => 'Bridal Salon', 'class' => 'img-fluid rounded-end']) ?>
+                        <?= Html::img('@web/images/barber.jpeg', ['alt' => 'barber Salon', 'class' => 'img-fluid rounded-end']) ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-4 mb-4">
-        <div class="card-index">
+        <div class="card-index shadow">
             <div class="card-body d-flex">
                 <div class="col mt-0">
                     <h5 class="card-title">Quality Products</h5>
@@ -132,7 +133,7 @@ use yii\helpers\Url;
         </div>
     </div>
     <div class="col-lg-4 mb-4">
-    <div class="card-index">
+    <div class="card-index shadow">
         <div class="card-body d-flex">
             <div class="col mt-0">
                 <h5 class="card-title">Bridal Salons</h5>
@@ -144,7 +145,8 @@ use yii\helpers\Url;
                 </div>
                 <div class="text mx-2">
                     <p class="card-text">Make your day glamorous with us by finding a good bridal salon.</p>
-                    <a href="#" class=" card-btn custom-btn ml-auto " style=" margin-left:9rem">View Salons</a>
+                    <a href="<?= Url::to(['/salons/index', 'type' => 1]) ?>" class="card-btn custom-btn custom-btn ml-auto" style=" margin-left:9rem">View  Salons</a>
+
                 </div>
             </div>
         </div>

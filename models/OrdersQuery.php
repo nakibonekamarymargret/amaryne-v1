@@ -3,9 +3,9 @@
 namespace app\models;
 
 /**
- * This is the ActiveQuery class for [[OrdersModel]].
+ * This is the ActiveQuery class for [[Orders]].
  *
- * @see OrdersModel
+ * @see Orders
  */
 class OrdersQuery extends \yii\db\ActiveQuery
 {
@@ -16,7 +16,7 @@ class OrdersQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return OrdersModel[]|array
+     * @return Orders[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class OrdersQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return OrdersModel|array|null
+     * @return Orders|array|null
      */
     public function one($db = null)
     {

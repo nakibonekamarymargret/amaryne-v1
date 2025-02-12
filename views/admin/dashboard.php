@@ -45,19 +45,17 @@ use yii\widgets\LinkPager;
 
                 </div>
 
-                <!-- Card 2: Customers -->
+                <!-- Card 2: users -->
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="customers">
                             <div class="row">
                                 <div class="col mt-0">
                                     <h5 class="card-title">Customers</h5>
                                 </div>
-                                <div class="col-auto">
-                                    <div class="stat text-primary">
-                                        <i class="align-middle" data-feather="users"></i>
-                                    </div>
-                                </div>
+                                
                             </div>
                             <h1 class="mt-1 mb-3">35</h1>
                             <div class="mb-0">
@@ -65,6 +63,28 @@ use yii\widgets\LinkPager;
                                     <i class="mdi mdi-arrow-bottom-right" data-feather="eye"></i>
                                 </span>
                             </div>
+                            </div>
+                            <div class="vl"></div>
+                            <div class="owners">
+                            <div class="row">
+                                <div class="col mt-0">
+                                    <h5 class="card-title">Salon Owners</h5>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="stat text-primary">
+                                        <i class="align-middle" data-feather="users"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="mt-1 mb-3">10</h1>
+                            <div class="mb-0">
+                                <span class="text-success">
+                                    <i class="mdi mdi-arrow-bottom-right" data-feather="eye"></i>
+                                </span>
+                            </div>
+                            </div>
+                        </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -224,7 +244,7 @@ use yii\widgets\LinkPager;
     </div>
 </div>
 
-<div class="col-6 ">
+<div class="col-6">
     <div class="card flex-fill w-100">
         <div class="card-header">
             <h5 class="card-title mb-0">Services Distribution</h5>
@@ -234,34 +254,57 @@ use yii\widgets\LinkPager;
         </div>
     </div>
 </div>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var ctx = document.getElementById('servicesPieChart').getContext('2d');
-        var servicesPieChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Hair', 'Nails', 'Bridal', 'Skincare', 'Mani+Pedi'],
-                datasets: [{
-                    label: 'Services Distribution',
-                    data: [40, 25, 15, 10, 10], // Adjust values based on actual data
-                    backgroundColor: [
-                        '#4e73df', // Hair
-                        '#1cc88a', // Nails
-                        '#36b9cc', // Bridal
-                        '#f6c23e', // Skincare
-                        '#e74a3b' // Mani+Pedi
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
+    document.addEventListener("DOMContentLoaded", function () {
+        // Function to fetch data from the backend
+        function fetchChartData() {
+            return fetch('/api/get-services-distribution')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch chart data');
                     }
-                }
-            }
-        });
+                    return response.json();
+                })
+                .then(data => {
+                    return {
+                        labels: data.labels, // Backend should return labels
+                        datasets: [{
+                            label: 'Services Distribution',
+                            data: data.values, // Backend should return values
+                            backgroundColor: [
+                                '#4e73df', // Hair
+                                '#1cc88a', // Nails
+                                '#36b9cc', // Bridal
+                                '#f6c23e', // Skincare
+                                '#e74a3b' // Mani+Pedi
+                            ],
+                            borderWidth: 1
+                        }]
+                    };
+                });
+        }
+
+        // Initialize the pie chart
+        var ctx = document.getElementById('servicesPieChart').getContext('2d');
+
+        fetchChartData()
+            .then(chartData => {
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error loading chart data:', error);
+            });
     });
 </script>

@@ -55,15 +55,15 @@ use yii\widgets\ActiveForm;
             <?php if (!empty($products)): ?>
                 <?php foreach ($products as $index => $product): ?>
                     <div class="col-md-4 mb-4">
-                        <h5 class="text-center text-uppercase font-monospace">
+                        <h4 class="text-center text-uppercase font-monospace">
                             <?= Html::encode($product->name) ?>
-                        </h5>
+                        </h4>
                         <div class="product-card border p-3 rounded">
                             <div class="product-image mb-3" data-id="<?= Html::encode($product->id) ?>">
                                 <img src="<?= Url::to('@web/' . Html::encode($product->image)) ?>"
                                     alt="<?= Html::encode($product->name) ?>">
                             </div>
-                            <p class="mb-3">
+                            <p class="mb-3 text-secondary fs-5">
                                 <span class="product-description" id="product-description-<?= $index ?>">
                                     <?= Html::encode($product->description) ?>
                                 </span>
@@ -72,7 +72,7 @@ use yii\widgets\ActiveForm;
                                 </a>
                             </p>
                             <div class="action-buttons d-flex justify-content-between">
-                                <button type="button" class="btn btn-primary edit-button" data-id="<?= $product->id ?>">
+                                <button type="button" class="btn btn-primary edit-button" style=" color: #FFE3E8" data-id="<?= $product->id ?>">
                                     Edit
                                 </button>
 

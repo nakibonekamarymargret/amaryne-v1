@@ -9,11 +9,11 @@ use yii\helpers\Url;
         <a class="sidebar-brand" href="index.html">
             <span class="align-middle">Amaryne Beauties</span>
         </a>
-        <span class="align-middle"><?= Html::encode($salonName) ?>nn</span>
+        <!-- <span class="align-middle">< ?= Html::encode($salonName) ?>nn</span> -->
         <hr>
         <ul class="sidebar-nav">
             <li class="sidebar-item active">
-                <a class="sidebar-link" href="<?= Url::to(['salon-owner/dashboard'])?>">
+                <a class="sidebar-link" href="<?= Url::to(['salon-owner/index'])?>">
                     <i class="fa-solid fa-gauge"></i>
                     <span class="align-middle">Dashboard</span>
                 </a>

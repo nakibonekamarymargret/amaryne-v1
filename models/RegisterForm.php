@@ -14,15 +14,13 @@ class RegisterForm extends \yii\db\ActiveRecord
         return 'users';
     }
 
-    public $verification_token;
-
-    // Add 'verification_token' to the rules
+    // Add 'auth_key' to the rules
     public function rules()
     {
         return [
             [['name', 'email', 'password', 'username'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name', 'password', 'username', 'verification_token'], 'string', 'max' => 255],
+            [['name', 'password', 'username', 'auth_key'], 'string', 'max' => 255],
             [['email'], 'string', 'max' => 100],
             ['is_verified', 'boolean'],
             [['contact'], 'match', 'pattern' => '/^[0-9]+$/', 'message' => 'Contact must contain only digits.'],
@@ -61,16 +59,15 @@ class RegisterForm extends \yii\db\ActiveRecord
         }
     }
 
-    public function beforeSave($insert)
-{
-    if (parent::beforeSave($insert)) {
-        if ($this->isNewRecord) {
-            $this->verification_token = Yii::$app->security->generateRandomString(); // Generate a verification token
+public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->auth_key = \Yii::$app->security->generateRandomString();
+            }
+            return true;
         }
-        return true;
+        return false;
     }
-    return false;
-}
-
 
 }

@@ -23,12 +23,11 @@ use yii\helpers\Html;
         <h1><?= Html::encode($salon->name) ?></h1>
         <p><?= Html::encode($salon->description) ?></p>
     </div>
-    <div class="zigzag-line"></div>
     <h2 class="text-center">Services</h2>
     <div class="row">
         <?php foreach ($services as $service): ?>
             <div class="col-md-4 mb-4">
-                <div class="service-card">
+                <div class="service-card shadow">
                     <h5 class="card-title text-center mt-3"><?= Html::encode($service->name) ?></h5>
                     <div class="position-relative">
                         <?php if (!empty($service->discount)): ?>

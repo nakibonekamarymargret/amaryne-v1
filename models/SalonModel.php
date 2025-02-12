@@ -120,6 +120,6 @@ class SalonModel extends \yii\db\ActiveRecord
     }
     public function getProducts()
     {
-        return $this->hasMany(ProductsModel::class, ['salon_id' => 'id']);
+        return $this->hasMany(Products::class, ['salon_id' => 'id']);
     }
 }

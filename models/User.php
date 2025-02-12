@@ -104,8 +104,5 @@ class User extends ActiveRecord  implements IdentityInterface
         }
         return false;
     }
-    // public function getTelephone()
-    // {
-    //     return $this->telephone;
-    // }
+ 
 }

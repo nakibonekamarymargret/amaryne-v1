@@ -6,6 +6,8 @@
 use app\assets\AppAsset;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
+use yii\web\View;
+
 
 
 AppAsset::register($this);
@@ -26,6 +28,8 @@ $this->registerCssFile('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bo
 $this->registerCssFile('@web/web/bootstrap-icons/font/bootstrap-icons.css', [
     'depends' => [\yii\web\YiiAsset::class],
 ]);
+$this->registerJsFile('@web/js/jquery-3.7.1.min.js', ['position' => View::POS_END, 'depends' => [\yii\web\JqueryAsset::className()],])
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

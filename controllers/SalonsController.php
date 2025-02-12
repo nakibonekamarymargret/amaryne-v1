@@ -13,45 +13,48 @@ use yii\web\NotFoundHttpException;
 
 class SalonsController extends Controller
 {
-    public function actionIndex()
+    public function actionIndex($type = null)
     {
-        $popularHairSalons = SalonModel::find()
-            ->select(['salon.*', 'COUNT(services.id) AS service_count'])
-            ->joinWith('services')
-            ->where(['salon.type' => 2])
-            ->groupBy('salon.id')
-            ->orderBy(['service_count' => SORT_DESC])
-            ->limit(4)
-            ->all();
-        $popularNailClinics = SalonModel::find()
-            ->select(['salon.*', 'COUNT(services.id) AS service_count'])
-            ->joinWith('services')
-            ->where(['salon.type' => 3])
-            ->groupBy('salon.id')
-            ->orderBy(['service_count' => SORT_DESC])
-            ->limit(4)
-            ->all();
+        // Fetch popular hair salons with service count
+        $popularHairSalons = $this->getSalonsByType(2, 4);
+
+        // Fetch popular nail clinics with service count
+        $popularNailClinics = $this->getSalonsByType(3, 4);
 
         // Fetch beauty shops
-        $beautyShops = SalonModel::find()
-            ->select(['salon.*'])
-            ->where(['salon.type' => 6])
-            ->orderBy(['name' => SORT_ASC])
-            ->all();
+        $beautyShops = $this->getSalonsByType(6);
+        $otherSalons = $this->getSalonsByType(null, 4);
 
-        // Fetch other types
-        $otherSalons = SalonModel::find()
-            ->select(['salon.*'])
-            ->where(['NOT IN', 'salon.type', [1, 3, 4, 5]])
-            ->orderBy(['name' => SORT_ASC])
-            ->limit(4) // Limit here
-            ->all();
-        $salons = SalonModel::find()
+        $query = SalonModel::find()
             ->select(['salon.*', 'COUNT(services.id) AS service_count'])
             ->joinWith('services')
             ->groupBy('salon.id')
-            ->orderBy(['service_count' => SORT_DESC])
-            ->all();
+            ->orderBy(['service_count' => SORT_DESC]);
+
+        if ($type) {
+            $query->andWhere(['salon.type' => $type]);
+        }
+
+        $salons = $query->all();
+        $filteredSalons = [];
+        if ($type) {
+            $filteredSalons = SalonModel::find()
+                ->select(['salon.*', 'COUNT(services.id) AS service_count'])
+                ->joinWith('services')
+                ->where(['salon.type' => $type])
+                ->groupBy('salon.id')
+                ->orderBy(['service_count' => SORT_DESC])
+                ->all();
+        }
+        // Fetch all salons sorted by service count (for the second div)
+    $allSalons = SalonModel::find()
+    ->select(['salon.*', 'COUNT(services.id) AS service_count'])
+    ->joinWith('services')
+    ->groupBy('salon.id')
+    ->orderBy(['service_count' => SORT_DESC])
+    ->all();
+
+        // Pass the sidebar data and salons to the view
         $this->view->params['sidebarData'] = [
             'popularHairSalons' => $popularHairSalons,
             'popularNailClinics' => $popularNailClinics,
@@ -60,21 +63,24 @@ class SalonsController extends Controller
         ];
 
         return $this->render('index', [
-            'salons' => $salons
+            'salons' => $salons,
+            'filteredSalons' => $filteredSalons,
+            'allSalons' => $allSalons,
         ]);
     }
 
-     public function actionView($id)
+    public function actionView($id)
     {
         $salon = SalonModel::findOne($id);
 
         if (!$salon) {
-            throw new \yii\web\NotFoundHttpException('Salon not found.');
+            throw new NotFoundHttpException('Salon not found.');
         }
 
         $services = $salon->getServices()->where(['status' => 'active'])->all();
         $appointment = new Appointments();
         $customer = Yii::$app->user->identity;
+
         return $this->render('view', [
             'salon' => $salon,
             'services' => $services,
@@ -83,5 +89,24 @@ class SalonsController extends Controller
         ]);
     }
 
+    private function getSalonsByType($type = null, $limit = null)
+    {
+        $query = SalonModel::find()
+            ->select(['salon.*', 'COUNT(services.id) AS service_count'])
+            ->joinWith('services')
+            ->groupBy('salon.id')
+            ->orderBy(['service_count' => SORT_DESC]);
+
+        if ($type) {
+            $query->andWhere(['salon.type' => $type]);
+        }
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        return $query->all();
+    }
 }
+
 
